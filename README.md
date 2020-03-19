@@ -54,7 +54,7 @@ A simple airport management system using Java13 and JavaFX13. We process incomin
     * `airport_default.txt:` File that is read when the Load button is pressed with the default scenario. Describes gate information
     * `setup_default.txt:` File that is read when the Load button is pressed with the default scenario. Describes flight information
 * pngs: png files used in the application windows
-## How to run
+## How to run (The gradle plugin requires JavaFX 11+)
 1. Make sure the `$JAVE_HOME` environment variable is set up correctly.
 2. Put some scenario files in the medialab directory. Their names must be `airport_<scenario_name>.txt` and `setup_<scenario_name>.txt`. The default ones can be used as well.
 3. Run the `run` task with the gradle wrapper
