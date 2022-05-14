@@ -9,25 +9,44 @@ A simple airport management system using Java11 and JavaFX11. We process incomin
 │       └── gradle-wrapper.properties
 ├── gradlew
 ├── gradlew.bat
+├── README.md
 └── src
     └── main
         ├── java
         │   └── multimedia
         │       ├── controllers
+        │       │   ├── DelayedPopupController.java
+        │       │   ├── FlightsPopupController.java
+        │       │   ├── GatesPopupController.java
+        │       │   ├── HoldingPopupController.java
         │       │   ├── MainWindowController.java
+        │       │   ├── NextDeparturesPopupController.java
         │       │   └── PopupController.java
+        │       ├── exceptions
+        │       │   └── InvalidInputException.java
         │       ├── Main.java
         │       ├── model
+        │       │   ├── Airport.java
+        │       │   ├── BaseGate.java
+        │       │   ├── CargoGate.java
         │       │   ├── Flight.java
-        │       │   └── Gate.java
+        │       │   ├── Gate.java
+        │       │   ├── GeneralParkingGate.java
+        │       │   ├── LongStayGate.java
+        │       │   ├── ZoneAGate.java
+        │       │   ├── ZoneBGate.java
+        │       │   └── ZoneCGate.java
         │       └── util
-        │           └── Helper.java
+        │           ├── Helper.java
+        │           ├── Initializer.java
+        │           └── TimeScheduler.java
         └── resources
             ├── fxml
             │   └── MainWindow.fxml
             └── medialab
-                ├── airport_default.txt
-                └── setup_default.txt
+                ├── airport_default.txt
+                └── setup_default.txt
+
 ```
 ##### Repository root directory
 * `build.gradle:` Gradle build file that uses JavaFX11 and a gradle plugin to download the necessary JavaFX11 libraries.
@@ -36,13 +55,30 @@ A simple airport management system using Java11 and JavaFX11. We process incomin
 * `gradlew.bat:` Windows script/Gradle wrapper
 ##### src/main/java/multimedia
 * controllers
+    * `DelayedPopupController.java:` Controller for the delayed flights popup
+    * `FlightsPopupController.java:` Controller for the flights popup
+    * `GatesPopupController.java:` Controller for the gates popup
+    * `HoldingPopupController.java:` Controller for the holding flights popup
     * `MainWindowController.java:` Controller of the main window of the application responsible for handling all user inputs
-    * `PopupController.java:` Controller of all the popups the user creates
+    * `NextDeparturesPopupController.java:` Controller for the next departures popup
+    * `PopupController.java:` Controller for the base popup class
+* exceptions
+    * `InvalidInputException:` Exception thrown when the input scenario inside the medialab directory holds invalid info
 * model
+    * `Airport.java:` Airport class that holds airport info and handles flight events
+    * `BaseGate.java:` Base gate class that can be extended
+    * `CargoGate.java:` Cargo gate class
     * `Flight.java:` Class representing flight objects that hold basic flight information
-    * `Gate.java:` Class representing gate objects that hold basic gate information
+    * `Gate.java:` Simple gate class
+    * `GeneralParkingGate.java:` General parking gate class
+    * `LongStayGate.java:` Long stay gate class
+    * `ZoneAGate.java:` Zone A gate class
+    * `ZoneBGate.java:` Zone B gate class
+    * `ZoneCGate.java:` Zone C gate class
 * util
-    * `Helper.java:` Helper class that handles certain events and provides helper functions
+    * `Helper.java:` Helper class that provides capitalization of Strings and a random number generator
+    * `Initializer.java:` Initializer class that reads scenario input and populates the airport class with gate and flight data
+    * `TimeScheduler.java:` Time scehduler class responsible for timer tasks related to flight events and updating the UI at regular intervals to simulate the passing of time
 * `Main.java:` The main class responsible for starting the application
 ##### src/main/resources
 * fxml
