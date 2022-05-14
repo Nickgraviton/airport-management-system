@@ -27,9 +27,6 @@ public class Main extends Application {
         MainWindowController controller = loader.getController();
         controller.setStage(stage);
 
-        stage.getIcons().add(new Image(getClass()
-                .getResourceAsStream("/pngs/plane_32x32.png")
-        ));
         stage.setTitle("Airport Management System");
         stage.setScene(new Scene(root));
         stage.show();

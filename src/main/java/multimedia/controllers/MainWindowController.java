@@ -116,8 +116,6 @@ public class MainWindowController {
         chooseScenario.setHeaderText("Insert the scenario ID to be loaded");
         chooseScenario.setContentText("Scenario ID");
         Stage scenarioStage = (Stage) chooseScenario.getDialogPane().getScene().getWindow();
-        scenarioStage.getIcons().add(new Image(getClass()
-                .getResourceAsStream("/pngs/plane_32x32.png")));
         Optional<String> retValue = chooseScenario.showAndWait();
 
         // If the OK button in the TextInputDialog window was pressed the
@@ -153,8 +151,6 @@ public class MainWindowController {
                 "Are you sure you want to exit?");
         confirmation.setTitle("Airport Management System");
         Stage confirmationStage = (Stage) confirmation.getDialogPane().getScene().getWindow();
-        confirmationStage.getIcons().add(new Image(getClass()
-                .getResourceAsStream("/pngs/plane_32x32.png")));
         confirmation.showAndWait()
                 .filter(response -> response == ButtonType.OK)
                 .ifPresent(response -> {
@@ -273,8 +269,6 @@ public class MainWindowController {
         Alert error = new Alert(AlertType.ERROR, msg);
         error.setTitle("Airport Management System");
         Stage errorStage = (Stage) error.getDialogPane().getScene().getWindow();
-        errorStage.getIcons().add(new Image(getClass()
-                .getResourceAsStream("/pngs/plane_32x32.png")));
         error.showAndWait();
     }
 
@@ -283,8 +277,6 @@ public class MainWindowController {
         info.setTitle("Airport Management System");
         info.setHeaderText("Success");
         Stage errorStage = (Stage) info.getDialogPane().getScene().getWindow();
-        errorStage.getIcons().add(new Image(getClass()
-                .getResourceAsStream("/pngs/plane_32x32.png")));
         info.showAndWait();
     }
 

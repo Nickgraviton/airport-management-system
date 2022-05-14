@@ -40,8 +40,6 @@ public class PopupController {
         this.airport = Airport.getInstance();
         this.popupType = popupType;
         popup = new Stage();
-        popup.getIcons().add(new Image(getClass()
-                .getResourceAsStream("/pngs/plane_32x32.png")));
         popup.setTitle("Airport Management System");
         anchor = new AnchorPane();
 
