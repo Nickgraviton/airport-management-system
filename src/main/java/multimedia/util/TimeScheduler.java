@@ -24,11 +24,25 @@ public class TimeScheduler {
         timer = new Timer();
     }
 
-    public static TimeScheduler getInstance( ) { return timeScheduler; }
-    public int getMinuteDuration() { return minuteDuration; }
-    public Timer getTimer() { return timer; }
-    public void setTimer(Timer timer) { this.timer = timer; }
-    public Timeline getTimeline() { return timeline; }
+    public static TimeScheduler getInstance() {
+        return timeScheduler;
+    }
+
+    public int getMinuteDuration() {
+        return minuteDuration;
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    public Timeline getTimeline() {
+        return timeline;
+    }
 
     public void setTimeline(MainWindowController controller) {
         this.timeline = new Timeline(
@@ -39,6 +53,11 @@ public class TimeScheduler {
         );
     }
 
-    public int getCurrentTime() { return currentTime; }
-    public void setCurrentTime(int currentTime) { this.currentTime = currentTime;}
+    public int getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(int currentTime) {
+        this.currentTime = currentTime;
+    }
 }

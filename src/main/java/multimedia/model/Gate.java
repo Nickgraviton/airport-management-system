@@ -1,8 +1,10 @@
 package multimedia.model;
 
-import java.util.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Gate {
     private final String id;
@@ -11,11 +13,11 @@ public class Gate {
     private final String category;
     private final int maxStay;
     private final Map<String, Boolean> flightsAllowed;
-    private final Map<String, Boolean> aircraftsAllowed;
+    private final Map<String, Boolean> aircraftAllowed;
     private final Map<String, Boolean> providedServices;
     private final Circle circle;
     private Flight assignedFlight;
-    
+
     public Gate(String id, int cost, String category) {
         circle = new Circle(5, Color.GREEN);
         this.id = id;
@@ -24,19 +26,19 @@ public class Gate {
         this.empty = true;
         this.assignedFlight = null;
         flightsAllowed = new HashMap<>();
-        aircraftsAllowed = new HashMap<>();
+        aircraftAllowed = new HashMap<>();
         providedServices = new HashMap<>();
         switch (category) {
             case "Gate":
                 this.maxStay = 45;
-                
+
                 flightsAllowed.put("passenger", Boolean.TRUE);
                 flightsAllowed.put("cargo", Boolean.FALSE);
                 flightsAllowed.put("private", Boolean.FALSE);
 
-                aircraftsAllowed.put("single-engine", Boolean.FALSE);
-                aircraftsAllowed.put("turboprop", Boolean.TRUE);
-                aircraftsAllowed.put("jet", Boolean.TRUE);
+                aircraftAllowed.put("single-engine", Boolean.FALSE);
+                aircraftAllowed.put("turboprop", Boolean.TRUE);
+                aircraftAllowed.put("jet", Boolean.TRUE);
 
                 providedServices.put("refuel", Boolean.TRUE);
                 providedServices.put("cleaning", Boolean.TRUE);
@@ -50,9 +52,9 @@ public class Gate {
                 flightsAllowed.put("cargo", Boolean.TRUE);
                 flightsAllowed.put("private", Boolean.FALSE);
 
-                aircraftsAllowed.put("single-engine", Boolean.FALSE);
-                aircraftsAllowed.put("turboprop", Boolean.TRUE);
-                aircraftsAllowed.put("jet", Boolean.TRUE);
+                aircraftAllowed.put("single-engine", Boolean.FALSE);
+                aircraftAllowed.put("turboprop", Boolean.TRUE);
+                aircraftAllowed.put("jet", Boolean.TRUE);
 
                 providedServices.put("refuel", Boolean.TRUE);
                 providedServices.put("cleaning", Boolean.TRUE);
@@ -66,9 +68,9 @@ public class Gate {
                 flightsAllowed.put("cargo", Boolean.FALSE);
                 flightsAllowed.put("private", Boolean.FALSE);
 
-                aircraftsAllowed.put("single-engine", Boolean.FALSE);
-                aircraftsAllowed.put("turboprop", Boolean.TRUE);
-                aircraftsAllowed.put("jet", Boolean.TRUE);
+                aircraftAllowed.put("single-engine", Boolean.FALSE);
+                aircraftAllowed.put("turboprop", Boolean.TRUE);
+                aircraftAllowed.put("jet", Boolean.TRUE);
 
                 providedServices.put("refuel", Boolean.TRUE);
                 providedServices.put("cleaning", Boolean.TRUE);
@@ -82,9 +84,9 @@ public class Gate {
                 flightsAllowed.put("cargo", Boolean.TRUE);
                 flightsAllowed.put("private", Boolean.TRUE);
 
-                aircraftsAllowed.put("single-engine", Boolean.FALSE);
-                aircraftsAllowed.put("turboprop", Boolean.TRUE);
-                aircraftsAllowed.put("jet", Boolean.TRUE);
+                aircraftAllowed.put("single-engine", Boolean.FALSE);
+                aircraftAllowed.put("turboprop", Boolean.TRUE);
+                aircraftAllowed.put("jet", Boolean.TRUE);
 
                 providedServices.put("refuel", Boolean.TRUE);
                 providedServices.put("cleaning", Boolean.TRUE);
@@ -93,14 +95,14 @@ public class Gate {
                 break;
             case "Zone C":
                 maxStay = 3 * 60;
-                
+
                 flightsAllowed.put("passenger", Boolean.TRUE);
                 flightsAllowed.put("cargo", Boolean.TRUE);
                 flightsAllowed.put("private", Boolean.TRUE);
 
-                aircraftsAllowed.put("single-engine", Boolean.TRUE);
-                aircraftsAllowed.put("turboprop", Boolean.FALSE);
-                aircraftsAllowed.put("jet", Boolean.FALSE);
+                aircraftAllowed.put("single-engine", Boolean.TRUE);
+                aircraftAllowed.put("turboprop", Boolean.FALSE);
+                aircraftAllowed.put("jet", Boolean.FALSE);
 
                 providedServices.put("refuel", Boolean.TRUE);
                 providedServices.put("cleaning", Boolean.TRUE);
@@ -114,9 +116,9 @@ public class Gate {
                 flightsAllowed.put("cargo", Boolean.TRUE);
                 flightsAllowed.put("private", Boolean.TRUE);
 
-                aircraftsAllowed.put("single-engine", Boolean.TRUE);
-                aircraftsAllowed.put("turboprop", Boolean.TRUE);
-                aircraftsAllowed.put("jet", Boolean.TRUE);
+                aircraftAllowed.put("single-engine", Boolean.TRUE);
+                aircraftAllowed.put("turboprop", Boolean.TRUE);
+                aircraftAllowed.put("jet", Boolean.TRUE);
 
                 providedServices.put("refuel", Boolean.TRUE);
                 providedServices.put("cleaning", Boolean.TRUE);
@@ -130,9 +132,9 @@ public class Gate {
                 flightsAllowed.put("cargo", Boolean.TRUE);
                 flightsAllowed.put("private", Boolean.TRUE);
 
-                aircraftsAllowed.put("single-engine", Boolean.TRUE);
-                aircraftsAllowed.put("turboprop", Boolean.TRUE);
-                aircraftsAllowed.put("jet", Boolean.TRUE);
+                aircraftAllowed.put("single-engine", Boolean.TRUE);
+                aircraftAllowed.put("turboprop", Boolean.TRUE);
+                aircraftAllowed.put("jet", Boolean.TRUE);
 
                 providedServices.put("refuel", Boolean.TRUE);
                 providedServices.put("cleaning", Boolean.TRUE);
@@ -160,30 +162,39 @@ public class Gate {
     public String getId() {
         return id;
     }
+
     public int getCost() {
         return cost;
     }
+
     public String getCategory() {
         return category;
     }
+
     public int getMaxStay() {
         return maxStay;
     }
+
     public Map<String, Boolean> getFlightsAllowed() {
         return flightsAllowed;
     }
-    public Map<String, Boolean> getAircraftsAllowed() {
-        return aircraftsAllowed;
+
+    public Map<String, Boolean> getAircraftAllowed() {
+        return aircraftAllowed;
     }
+
     public Map<String, Boolean> getProvidedServices() {
         return providedServices;
     }
+
     public Circle getCircle() {
         return circle;
     }
+
     public Flight getAssignedFlight() {
         return assignedFlight;
     }
+
     public void setAssignedFlight(Flight assignedFlight) {
         this.assignedFlight = assignedFlight;
     }

@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import multimedia.controllers.MainWindowController;
 
@@ -13,9 +12,10 @@ import java.io.IOException;
 public class Main extends Application {
     /**
      * Loads the main window and lets the controller handle the application
+     *
      * @param stage stage of the program
      * @throws IOException is thrown if "MainWindow.fxml" is not found or cannot
-     * be opened
+     *                     be opened
      */
     @Override
     public void start(Stage stage) throws IOException {
@@ -34,7 +34,8 @@ public class Main extends Application {
 
     /**
      * Launches the application.
-     * @param args 
+     *
+     * @param args
      */
     public static void main(String[] args) {
         Application.launch(args);

@@ -2,6 +2,7 @@ package multimedia.controllers;
 
 import java.sql.Time;
 import java.util.stream.Collectors;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,11 +32,11 @@ public class PopupController {
     TableView<Flight> delayedTable;
     TableView<Flight> holdingTable;
     TableView<Flight> nextDeparturesTable;
-    
+
     /**
-     * @param owner the owner window controller instance
-     * @param popupType defines the popup type 
-     */    
+     * @param owner     the owner window controller instance
+     * @param popupType defines the popup type
+     */
     public PopupController(MainWindowController owner, String popupType) {
         this.airport = Airport.getInstance();
         this.popupType = popupType;
@@ -43,16 +44,16 @@ public class PopupController {
         popup.setTitle("Airport Management System");
         anchor = new AnchorPane();
 
-        switch(popupType) {
+        switch (popupType) {
             case "Gates":
                 gateTable = new TableView<>();
                 gateTable.setSelectionModel(null);
-                
+
                 TableColumn<Gate, String> gateId = new TableColumn<>("Gate");
                 TableColumn<Gate, String> gateStatus = new TableColumn<>("Status");
                 TableColumn<Gate, String> flightIdInGate = new TableColumn<>("Flight");
                 TableColumn<Gate, String> takeOffTime = new TableColumn<>("Takeoff time");
-                
+
                 gateId.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getId()));
                 gateStatus.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmpty() ? "Empty" : "Taken"));
                 flightIdInGate.setCellValueFactory(data -> new SimpleStringProperty(
@@ -60,7 +61,7 @@ public class PopupController {
                 takeOffTime.setCellValueFactory(data -> new SimpleStringProperty(
                         (data.getValue().getAssignedFlight() == null || !data.getValue().getAssignedFlight().getStatus().equals("Parked"))
                                 ? "" : Integer.toString(data.getValue().getAssignedFlight().getLeavesOn())));
-                
+
                 gateTable.getColumns().addAll(gateId, gateStatus, flightIdInGate, takeOffTime);
                 for (TableColumn c : gateTable.getColumns()) {
                     c.setMinWidth(100);
@@ -76,23 +77,23 @@ public class PopupController {
             case "Flights":
                 flightTable = new TableView<>();
                 flightTable.setSelectionModel(null);
-                
+
                 TableColumn<Flight, String> flightId = new TableColumn<>("Flight");
                 TableColumn<Flight, String> flightCity = new TableColumn<>("City");
                 TableColumn<Flight, String> aircraftType = new TableColumn<>("Aircraft type");
                 TableColumn<Flight, String> flightStatus = new TableColumn<>("Status");
                 TableColumn<Flight, String> gateIdOfFlight = new TableColumn<>("Gate");
                 TableColumn<Flight, String> flightTakeOffTime = new TableColumn<>("Takeoff time");
-                
+
                 flightId.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getId()));
                 flightCity.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCity()));
                 aircraftType.setCellValueFactory(data -> new SimpleStringProperty(Helper.capitalize(data.getValue().getAircraftType())));
                 flightStatus.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getStatus()));
                 gateIdOfFlight.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getGate() == null
-                                ? "" : data.getValue().getGate().getId()));
+                        ? "" : data.getValue().getGate().getId()));
                 flightTakeOffTime.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getLeavesOn() < 0
-                                ? "" : Integer.toString(data.getValue().getLeavesOn())));
-                
+                        ? "" : Integer.toString(data.getValue().getLeavesOn())));
+
                 flightTable.getColumns().addAll(flightId, flightCity, aircraftType, flightStatus, gateIdOfFlight, flightTakeOffTime);
                 for (TableColumn c : flightTable.getColumns()) {
                     c.setMinWidth(100);
@@ -108,13 +109,13 @@ public class PopupController {
             case "Delayed":
                 delayedTable = new TableView<>();
                 delayedTable.setSelectionModel(null);
-                
+
                 TableColumn<Flight, String> delayedGateId = new TableColumn<>("Gate");
                 TableColumn<Flight, String> delayedFlightId = new TableColumn<>("Flight");
                 TableColumn<Flight, String> delayedFlightType = new TableColumn<>("Flight type");
                 TableColumn<Flight, String> delayedAircraftType = new TableColumn<>("Aircraft type");
                 TableColumn<Flight, String> delayedTakeOffTime = new TableColumn<>("Takeoff time");
-                
+
                 delayedGateId.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getGate().getId()));
                 delayedFlightId.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getId()));
                 delayedFlightType.setCellValueFactory(data -> new SimpleStringProperty(Helper.capitalize(data.getValue().getFlightType())));
@@ -128,9 +129,9 @@ public class PopupController {
                 }
                 ObservableList<Flight> delayed = FXCollections.observableArrayList(
                         airport.getFlightList().stream()
-                        .filter(f -> (f.getStatus().equals("Parked") &&
-                                f.getLeavesOn() - f.getRequestTimeStamp() > f.getMinutesToTakeOff()))
-                        .collect(Collectors.toList()));
+                                .filter(f -> (f.getStatus().equals("Parked") &&
+                                        f.getLeavesOn() - f.getRequestTimeStamp() > f.getMinutesToTakeOff()))
+                                .collect(Collectors.toList()));
                 delayedTable.setItems(delayed);
                 anchor.getChildren().add(delayedTable);
                 AnchorPane.setBottomAnchor(delayedTable, 0.0);
@@ -141,12 +142,12 @@ public class PopupController {
             case "Holding":
                 holdingTable = new TableView<>();
                 holdingTable.setSelectionModel(null);
-                
+
                 TableColumn<Flight, String> holdingFlightId = new TableColumn<>("Flight");
                 TableColumn<Flight, String> holdingFlightType = new TableColumn<>("Flight type");
                 TableColumn<Flight, String> holdingAircraftType = new TableColumn<>("Aircraft type");
                 TableColumn<Flight, String> holdingRequestTimeStamp = new TableColumn<>("Time of request");
-                
+
                 holdingFlightId.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getId()));
                 holdingFlightType.setCellValueFactory(data -> new SimpleStringProperty(Helper.capitalize(data.getValue().getFlightType())));
                 holdingAircraftType.setCellValueFactory(data -> new SimpleStringProperty(Helper.capitalize(data.getValue().getAircraftType())));
@@ -159,8 +160,8 @@ public class PopupController {
                 }
                 ObservableList<Flight> holding = FXCollections.observableArrayList(
                         airport.getFlightList().stream()
-                        .filter(f -> f.getStatus().equals("Holding"))
-                        .collect(Collectors.toList()));
+                                .filter(f -> f.getStatus().equals("Holding"))
+                                .collect(Collectors.toList()));
                 holdingTable.setItems(holding);
                 anchor.getChildren().add(holdingTable);
                 AnchorPane.setBottomAnchor(holdingTable, 0.0);
@@ -171,11 +172,11 @@ public class PopupController {
             case "Next Departures":
                 nextDeparturesTable = new TableView<>();
                 nextDeparturesTable.setSelectionModel(null);
-                
+
                 TableColumn<Flight, String> nextTenFlightId = new TableColumn<>("Flight");
                 TableColumn<Flight, String> nextTenFlightType = new TableColumn<>("Flight type");
                 TableColumn<Flight, String> nextTenAircraftType = new TableColumn<>("Aircraft type");
-                
+
                 nextTenFlightId.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getId()));
                 nextTenFlightType.setCellValueFactory(data -> new SimpleStringProperty(Helper.capitalize(data.getValue().getFlightType())));
                 nextTenAircraftType.setCellValueFactory(data -> new SimpleStringProperty(Helper.capitalize(data.getValue().getAircraftType())));
@@ -187,9 +188,9 @@ public class PopupController {
                 }
                 ObservableList<Flight> nextDepartures = FXCollections.observableArrayList(
                         airport.getFlightList().stream()
-                        .filter(f -> (f.getStatus().equals("Parked") &&
-                                f.getLeavesOn() - timeScheduler.getCurrentTime() <= 10))
-                        .collect(Collectors.toList()));
+                                .filter(f -> (f.getStatus().equals("Parked") &&
+                                        f.getLeavesOn() - timeScheduler.getCurrentTime() <= 10))
+                                .collect(Collectors.toList()));
                 nextDeparturesTable.setItems(nextDepartures);
                 anchor.getChildren().add(nextDeparturesTable);
                 AnchorPane.setBottomAnchor(nextDeparturesTable, 0.0);
@@ -203,12 +204,12 @@ public class PopupController {
         popup.show();
         popup.setOnCloseRequest(e -> owner.getPopupList().remove(this));
     }
-    
+
     /**
      * Updates the popup's interface
      */
     public void refresh() {
-        switch(popupType) {
+        switch (popupType) {
             case "Gates":
                 gateTable.setItems(airport.getGateList());
                 gateTable.refresh();
@@ -220,26 +221,26 @@ public class PopupController {
             case "Delayed":
                 ObservableList<Flight> delayed = FXCollections.observableArrayList(
                         airport.getFlightList().stream()
-                        .filter(f -> (f.getStatus().equals("Parked") &&
-                                f.getLeavesOn() - f.getRequestTimeStamp() > f.getMinutesToTakeOff()))
-                        .collect(Collectors.toList()));
+                                .filter(f -> (f.getStatus().equals("Parked") &&
+                                        f.getLeavesOn() - f.getRequestTimeStamp() > f.getMinutesToTakeOff()))
+                                .collect(Collectors.toList()));
                 delayedTable.setItems(delayed);
                 delayedTable.refresh();
                 break;
             case "Holding":
                 ObservableList<Flight> holding = FXCollections.observableArrayList(
                         airport.getFlightList().stream()
-                        .filter(f -> f.getStatus().equals("Holding"))
-                        .collect(Collectors.toList()));
+                                .filter(f -> f.getStatus().equals("Holding"))
+                                .collect(Collectors.toList()));
                 holdingTable.setItems(holding);
                 holdingTable.refresh();
                 break;
             case "Next Departures":
                 ObservableList<Flight> nextDepartures = FXCollections.observableArrayList(
                         airport.getFlightList().stream()
-                        .filter(f -> (f.getStatus().equals("Parked") &&
-                                f.getLeavesOn() - timeScheduler.getCurrentTime() <= 10))
-                        .collect(Collectors.toList()));
+                                .filter(f -> (f.getStatus().equals("Parked") &&
+                                        f.getLeavesOn() - timeScheduler.getCurrentTime() <= 10))
+                                .collect(Collectors.toList()));
                 nextDeparturesTable.setItems(nextDepartures);
                 nextDeparturesTable.refresh();
         }

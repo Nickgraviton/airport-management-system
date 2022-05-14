@@ -10,10 +10,12 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import multimedia.exceptions.InvalidInputException;
 import multimedia.model.Airport;
 import multimedia.model.Flight;
 import multimedia.model.Gate;
 import multimedia.util.Helper;
+import multimedia.util.Initializer;
 import multimedia.util.TimeScheduler;
 
 import java.io.IOException;
@@ -29,27 +31,42 @@ import java.util.Timer;
 public class MainWindowController {
     private Airport airport;
     private TimeScheduler timeScheduler;
+    private Initializer initializer;
     private Stage myStage;
     private final List<PopupController> popupList;
 
-    @FXML private Label flightsArriving, availableParking, nextTenMinutes,
-                totalIncome, totalTime, bottomText;
-    @FXML private Menu detailsMenu;
-    @FXML private AnchorPane flightForm;
-    @FXML private TextField id, city, minutesToTakeOff;
-    @FXML private ChoiceBox flightType, aircraftType;
-    @FXML private CheckBox refueling, cleaning, passengers, loading;
-    @FXML private Button submitButton;
-    @FXML private MenuItem menuStart, menuLoad, menuExit, gates, flights, holding, nextDepartures;
-    @FXML private TableView<Gate> gateTable;
-    @FXML private TableColumn<Gate, String> gateType, gateId;
-    @FXML private TableColumn<Gate, Circle> gateStatus;
+    @FXML
+    private Label flightsArriving, availableParking, nextTenMinutes,
+            totalIncome, totalTime, bottomText;
+    @FXML
+    private Menu detailsMenu;
+    @FXML
+    private AnchorPane flightForm;
+    @FXML
+    private TextField id, city, minutesToTakeOff;
+    @FXML
+    private ChoiceBox flightType, aircraftType;
+    @FXML
+    private CheckBox refueling, cleaning, passengers, loading;
+    @FXML
+    private Button submitButton;
+    @FXML
+    private MenuItem menuStart, menuLoad, menuExit, gates, flights, holding, nextDepartures;
+    @FXML
+    private TableView<Gate> gateTable;
+    @FXML
+    private TableColumn<Gate, String> gateType, gateId;
+    @FXML
+    private TableColumn<Gate, Circle> gateStatus;
 
-    public List<PopupController> getPopupList() { return popupList; }
+    public List<PopupController> getPopupList() {
+        return popupList;
+    }
 
-    public MainWindowController () {
+    public MainWindowController() {
         airport = Airport.getInstance();
         timeScheduler = TimeScheduler.getInstance();
+        initializer = Initializer.getInstance();
         timeScheduler.setTimeline(this);
         popupList = new ArrayList<>();
     }
@@ -91,12 +108,12 @@ public class MainWindowController {
         for (Flight f : airport.getFlightList()) {
             // During the initialization phase we either put the flight directly
             // in parked status or we ignore and remove it from the list
-            if(Helper.service(airport.getGateList(), f, "Parked", "Ignored").equals("Unavailable")){
+            if (airport.service(f, "Parked", "Ignored").equals("Unavailable")) {
                 bottomText.setText("Flight with id " + f.getId() + " and city "
                         + f.getCity() + " could not be servied");
                 ignoredFlights.add(f);
             } else {
-                Helper.handleParked(this, f);
+                airport.handleParked(this, f);
             }
         }
         Platform.runLater(() -> updateUI("Initialization complete"));
@@ -135,7 +152,11 @@ public class MainWindowController {
                 cleanup();
                 disable();
 
-                Helper.readInput(this, airportURL, setupURL);
+                try {
+                    initializer.readInput(airportURL, setupURL);
+                } catch (InvalidInputException exception) {
+                    handleError(exception.getMessage());
+                }
                 menuStart.setDisable(false);
             }
         }
@@ -200,13 +221,13 @@ public class MainWindowController {
         airport.getFlightList().add(f);
 
         String msg;
-        String returnStatus = Helper.service(airport.getGateList(), f, "Landing", "Holding");
+        String returnStatus = airport.service(f, "Landing", "Holding");
         if (returnStatus.equals("Unavailable")) {
             msg = "The flight was put on hold until a suitable gate is freed.";
         } else {
             msg = "The flight with id " + f.getId() + " from " + f.getCity()
                     + " will land in gate with id " + returnStatus + ".";
-            Helper.handleLanding(this, f);
+            airport.handleLanding(this, f);
         }
         showInfo(msg);
         id.setText("");
@@ -242,6 +263,7 @@ public class MainWindowController {
 
     /**
      * Updates all UI elements and popups
+     *
      * @param msg optional message that appears on the bottom of the screen
      */
     public void updateUI(String msg) {
@@ -249,7 +271,7 @@ public class MainWindowController {
         incomingFlights = airport.getFlightList().stream()
                 .filter(f -> (f.getStatus().equals("Landing") || f.getStatus().equals("Holding"))).count();
         available = airport.getGateList().stream().filter(g -> g.getEmpty() == true).count();
-        nextTen = airport.getFlightList().stream().filter(f -> (f.getLeavesOn() > 0  && f.getLeavesOn() - timeScheduler.getCurrentTime() <= 10)).count();
+        nextTen = airport.getFlightList().stream().filter(f -> (f.getLeavesOn() > 0 && f.getLeavesOn() - timeScheduler.getCurrentTime() <= 10)).count();
 
         flightsArriving.setText(Long.toString(incomingFlights));
         availableParking.setText(Long.toString(available));
