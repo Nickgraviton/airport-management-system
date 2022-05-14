@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import multimedia.exceptions.InvalidInputException;
@@ -176,6 +177,7 @@ public class MainWindowController {
     private void exitApplication() {
         Alert confirmation = new Alert(AlertType.CONFIRMATION,
                 "Are you sure you want to exit?");
+        confirmation.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         confirmation.setTitle("Airport Management System");
         confirmation.showAndWait()
                 .filter(response -> response == ButtonType.OK)
@@ -295,12 +297,14 @@ public class MainWindowController {
 
     private void showError(String msg) {
         Alert error = new Alert(AlertType.ERROR, msg);
+        error.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         error.setTitle("Airport Management System");
         error.showAndWait();
     }
 
     private void showInfo(String msg) {
         Alert info = new Alert(AlertType.INFORMATION, msg);
+        info.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         info.setTitle("Airport Management System");
         info.setHeaderText("Success");
         info.showAndWait();
