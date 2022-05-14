@@ -11,7 +11,7 @@ public class Flight {
     private final List<String> requestedServices;
     private final int requestTimeStamp;
     private String status;
-    private Gate gate;
+    private BaseGate gate;
     private int leavesOn;
 
 
@@ -71,11 +71,11 @@ public class Flight {
         this.leavesOn = leavesOn;
     }
 
-    public Gate getGate() {
+    public BaseGate getGate() {
         return gate;
     }
 
-    public void setGate(Gate gate) {
+    public void setGate(BaseGate gate) {
         this.gate = gate;
     }
 }

@@ -5,13 +5,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
-import multimedia.model.Gate;
+import multimedia.model.BaseGate;
 
 /**
  * Class responsible for the gates popup.
  */
 public class GatesPopupController extends PopupController {
-    TableView<Gate> gateTable;
+    TableView<BaseGate> gateTable;
     /**
      * @param owner the owner window controller instance
      */
@@ -19,10 +19,10 @@ public class GatesPopupController extends PopupController {
         gateTable = new TableView<>();
         gateTable.setSelectionModel(null);
 
-        TableColumn<Gate, String> gateId = new TableColumn<>("Gate");
-        TableColumn<Gate, String> gateStatus = new TableColumn<>("Status");
-        TableColumn<Gate, String> flightIdInGate = new TableColumn<>("Flight");
-        TableColumn<Gate, String> takeOffTime = new TableColumn<>("Takeoff time");
+        TableColumn<BaseGate, String> gateId = new TableColumn<>("Gate");
+        TableColumn<BaseGate, String> gateStatus = new TableColumn<>("Status");
+        TableColumn<BaseGate, String> flightIdInGate = new TableColumn<>("Flight");
+        TableColumn<BaseGate, String> takeOffTime = new TableColumn<>("Takeoff time");
 
         gateId.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getId()));
         gateStatus.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmpty() ? "Empty" : "Taken"));

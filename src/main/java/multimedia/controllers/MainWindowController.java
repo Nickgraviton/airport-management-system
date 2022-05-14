@@ -11,8 +11,8 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import multimedia.exceptions.InvalidInputException;
 import multimedia.model.Airport;
+import multimedia.model.BaseGate;
 import multimedia.model.Flight;
-import multimedia.model.Gate;
 import multimedia.util.Initializer;
 import multimedia.util.TimeScheduler;
 
@@ -52,11 +52,11 @@ public class MainWindowController {
     @FXML
     private MenuItem menuStart, menuLoad, menuExit, gates, flights, holding, nextDepartures;
     @FXML
-    private TableView<Gate> gateTable;
+    private TableView<BaseGate> gateTable;
     @FXML
-    private TableColumn<Gate, String> gateType, gateId;
+    private TableColumn<BaseGate, String> gateType, gateId;
     @FXML
-    private TableColumn<Gate, Circle> gateStatus;
+    private TableColumn<BaseGate, Circle> gateStatus;
 
     public List<PopupController> getPopupList() {
         return popupList;
@@ -259,7 +259,7 @@ public class MainWindowController {
     }
 
     /**
-     * Updates all UI elements and popups
+     * Updates all UI elements and popups. Invoked both periodically and on demand.
      *
      * @param msg optional message that appears at the bottom of the screen
      */
@@ -267,7 +267,7 @@ public class MainWindowController {
         long incomingFlights, available, nextTen;
         incomingFlights = airport.getFlightList().stream()
                 .filter(f -> (f.getStatus().equals("Landing") || f.getStatus().equals("Holding"))).count();
-        available = airport.getGateList().stream().filter(Gate::getEmpty).count();
+        available = airport.getGateList().stream().filter(BaseGate::getEmpty).count();
         nextTen = airport.getFlightList().stream().filter(f -> (f.getLeavesOn() > 0 && f.getLeavesOn() - timeScheduler.getCurrentTime() <= 10)).count();
 
         flightsArriving.setText(Long.toString(incomingFlights));

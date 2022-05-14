@@ -16,7 +16,7 @@ import java.util.TimerTask;
 public class Airport {
     private int income;
     private final ObservableList<Flight> flightList;
-    private final ObservableList<Gate> gateList;
+    private final ObservableList<BaseGate> gateList;
     private final TimeScheduler timeScheduler;
     private static final Airport airport = new Airport();
 
@@ -43,7 +43,7 @@ public class Airport {
         return flightList;
     }
 
-    public ObservableList<Gate> getGateList() {
+    public ObservableList<BaseGate> getGateList() {
         return gateList;
     }
 
@@ -56,8 +56,8 @@ public class Airport {
      * @return the gate's id if the assignment was successful or the string "Unavailable" if it wasn't
      */
     public String service(Flight f, String successStatus, String failureStatus) {
-        Gate assignedGate = null;
-        for (Gate g : gateList) {
+        BaseGate assignedGate = null;
+        for (BaseGate g : gateList) {
             if (g.getFlightsAllowed().get(f.getFlightType())
                     && g.getAircraftAllowed().get(f.getAircraftType())
                     && f.getMinutesToTakeOff() + f.getRequestTimeStamp() < g.getMaxStay()

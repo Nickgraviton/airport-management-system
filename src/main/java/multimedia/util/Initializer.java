@@ -1,9 +1,7 @@
 package multimedia.util;
 
 import multimedia.exceptions.InvalidInputException;
-import multimedia.model.Airport;
-import multimedia.model.Flight;
-import multimedia.model.Gate;
+import multimedia.model.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -62,8 +60,33 @@ public class Initializer {
                 throw new InvalidInputException("Invalid gate type");
             }
             for (int i = 1; i <= Integer.parseInt(tokens[1]); i++) {
-                airport.getGateList().add(new Gate(tokens[3] + i,
-                        Integer.parseInt(tokens[2]), MAP_CATEGORIES.get(tokens[0])));
+                String id = tokens[3] + i;
+                int cost = Integer.parseInt(tokens[2]);
+                String category = MAP_CATEGORIES.get(tokens[0]);
+                BaseGate g = null;
+                switch (category) {
+                    case "Gate":
+                        g = new Gate(id, cost, category);
+                        break;
+                    case "Cargo Gate":
+                        g = new CargoGate(id, cost, category);
+                        break;
+                    case "Zone A":
+                        g = new ZoneAGate(id, cost, category);
+                        break;
+                    case "Zone B":
+                        g = new ZoneBGate(id, cost, category);
+                        break;
+                    case "Zone C":
+                        g = new ZoneCGate(id, cost, category);
+                        break;
+                    case "General Parking":
+                        g = new GeneralParkingGate(id, cost, category);
+                        break;
+                    case"Long Stay":
+                        g = new LongStayGate(id, cost, category);
+                }
+                airport.getGateList().add(g);
             }
         }
 
