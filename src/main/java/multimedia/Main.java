@@ -1,13 +1,14 @@
 package multimedia;
 
-import java.io.IOException;
-import multimedia.controllers.MainWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import multimedia.controllers.MainWindowController;
+
+import java.io.IOException;
 
 public class Main extends Application {
     /**
@@ -19,14 +20,16 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(
-                Main.class.getResource("/fxml/MainWindow.fxml"));
+                Main.class.getResource("/fxml/MainWindow.fxml")
+        );
         Parent root = loader.load();
 
         MainWindowController controller = loader.getController();
         controller.setStage(stage);
 
         stage.getIcons().add(new Image(getClass()
-                .getResourceAsStream("/pngs/plane_32x32.png")));
+                .getResourceAsStream("/pngs/plane_32x32.png")
+        ));
         stage.setTitle("Airport Management System");
         stage.setScene(new Scene(root));
         stage.show();
@@ -39,5 +42,4 @@ public class Main extends Application {
     public static void main(String[] args) {
         Application.launch(args);
     }
-
 }

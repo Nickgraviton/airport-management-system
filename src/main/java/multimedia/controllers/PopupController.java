@@ -1,5 +1,6 @@
 package multimedia.controllers;
 
+import java.sql.Time;
 import java.util.stream.Collectors;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -10,15 +11,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import multimedia.model.Airport;
 import multimedia.model.Flight;
 import multimedia.model.Gate;
 import multimedia.util.Helper;
+import multimedia.util.TimeScheduler;
 
 /**
  * Class responsible for the Details menu popups.
  */
 public class PopupController {
-    final MainWindowController owner;
+    private Airport airport;
+    private TimeScheduler timeScheduler;
     final String popupType;
     final Stage popup;
     final AnchorPane anchor;
@@ -33,7 +37,7 @@ public class PopupController {
      * @param popupType defines the popup type 
      */    
     public PopupController(MainWindowController owner, String popupType) {
-        this.owner = owner;
+        this.airport = Airport.getInstance();
         this.popupType = popupType;
         popup = new Stage();
         popup.getIcons().add(new Image(getClass()
@@ -64,7 +68,7 @@ public class PopupController {
                     c.setMinWidth(100);
                     c.setSortable(false);
                 }
-                gateTable.setItems(owner.getGateList());
+                gateTable.setItems(airport.getGateList());
                 anchor.getChildren().add(gateTable);
                 AnchorPane.setBottomAnchor(gateTable, 0.0);
                 AnchorPane.setTopAnchor(gateTable, 0.0);
@@ -96,7 +100,7 @@ public class PopupController {
                     c.setMinWidth(100);
                     c.setSortable(false);
                 }
-                flightTable.setItems(owner.getFlightList());
+                flightTable.setItems(airport.getFlightList());
                 anchor.getChildren().add(flightTable);
                 AnchorPane.setBottomAnchor(flightTable, 0.0);
                 AnchorPane.setTopAnchor(flightTable, 0.0);
@@ -125,7 +129,7 @@ public class PopupController {
                     c.setSortable(false);
                 }
                 ObservableList<Flight> delayed = FXCollections.observableArrayList(
-                        owner.getFlightList().stream()
+                        airport.getFlightList().stream()
                         .filter(f -> (f.getStatus().equals("Parked") &&
                                 f.getLeavesOn() - f.getRequestTimeStamp() > f.getMinutesToTakeOff()))
                         .collect(Collectors.toList()));
@@ -156,7 +160,7 @@ public class PopupController {
                     c.setSortable(false);
                 }
                 ObservableList<Flight> holding = FXCollections.observableArrayList(
-                        owner.getFlightList().stream()
+                        airport.getFlightList().stream()
                         .filter(f -> f.getStatus().equals("Holding"))
                         .collect(Collectors.toList()));
                 holdingTable.setItems(holding);
@@ -184,9 +188,9 @@ public class PopupController {
                     c.setSortable(false);
                 }
                 ObservableList<Flight> nextDepartures = FXCollections.observableArrayList(
-                        owner.getFlightList().stream()
+                        airport.getFlightList().stream()
                         .filter(f -> (f.getStatus().equals("Parked") &&
-                                f.getLeavesOn() - owner.getCurrentTime() <= 10))
+                                f.getLeavesOn() - timeScheduler.getCurrentTime() <= 10))
                         .collect(Collectors.toList()));
                 nextDeparturesTable.setItems(nextDepartures);
                 anchor.getChildren().add(nextDeparturesTable);
@@ -208,16 +212,16 @@ public class PopupController {
     public void refresh() {
         switch(popupType) {
             case "Gates":
-                gateTable.setItems(owner.getGateList());
+                gateTable.setItems(airport.getGateList());
                 gateTable.refresh();
                 break;
             case "Flights":
-                flightTable.setItems(owner.getFlightList());
+                flightTable.setItems(airport.getFlightList());
                 flightTable.refresh();
                 break;
             case "Delayed":
                 ObservableList<Flight> delayed = FXCollections.observableArrayList(
-                        owner.getFlightList().stream()
+                        airport.getFlightList().stream()
                         .filter(f -> (f.getStatus().equals("Parked") &&
                                 f.getLeavesOn() - f.getRequestTimeStamp() > f.getMinutesToTakeOff()))
                         .collect(Collectors.toList()));
@@ -226,7 +230,7 @@ public class PopupController {
                 break;
             case "Holding":
                 ObservableList<Flight> holding = FXCollections.observableArrayList(
-                        owner.getFlightList().stream()
+                        airport.getFlightList().stream()
                         .filter(f -> f.getStatus().equals("Holding"))
                         .collect(Collectors.toList()));
                 holdingTable.setItems(holding);
@@ -234,9 +238,9 @@ public class PopupController {
                 break;
             case "Next Departures":
                 ObservableList<Flight> nextDepartures = FXCollections.observableArrayList(
-                        owner.getFlightList().stream()
+                        airport.getFlightList().stream()
                         .filter(f -> (f.getStatus().equals("Parked") &&
-                                f.getLeavesOn() - owner.getCurrentTime() <= 10))
+                                f.getLeavesOn() - timeScheduler.getCurrentTime() <= 10))
                         .collect(Collectors.toList()));
                 nextDeparturesTable.setItems(nextDepartures);
                 nextDeparturesTable.refresh();

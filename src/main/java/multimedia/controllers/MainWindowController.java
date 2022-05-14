@@ -1,13 +1,7 @@
 package multimedia.controllers;
 
-import java.io.*;
-import java.util.*;
-import java.net.URL;
-import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -16,23 +10,26 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import multimedia.model.*;
+import multimedia.model.Airport;
+import multimedia.model.Flight;
+import multimedia.model.Gate;
 import multimedia.util.Helper;
+import multimedia.util.TimeScheduler;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Timer;
 
 /**
  * Class responsible for the main window of the program
  */
 public class MainWindowController {
-    // 5 real world seconds correspond to 1 simulation minute
-    private final int minuteDuration = 5;
-    private final Timeline timeline;
-    private Timer timer;
-    private int currentTime;
-    private int income;
+    private Airport airport;
+    private TimeScheduler timeScheduler;
     private Stage myStage;
-    private final ObservableList<Flight> flightList;
-    private final ObservableList<Gate> gateList;
     private final List<PopupController> popupList;
 
     @FXML private Label flightsArriving, availableParking, nextTenMinutes,
@@ -48,20 +45,13 @@ public class MainWindowController {
     @FXML private TableColumn<Gate, String> gateType, gateId;
     @FXML private TableColumn<Gate, Circle> gateStatus;
 
-    public MainWindowController () {
-        flightList = FXCollections.observableArrayList();
-        gateList = FXCollections.observableArrayList();
-        popupList = new ArrayList<>();
+    public List<PopupController> getPopupList() { return popupList; }
 
-        // Timers initialization for the clock and the scheduled events
-        timeline = new Timeline(
-            new KeyFrame(Duration.seconds(minuteDuration), e -> {
-                currentTime++;
-                Platform.runLater(() -> updateUI(null));
-            })
-        );
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timer = new Timer();
+    public MainWindowController () {
+        airport = Airport.getInstance();
+        timeScheduler = TimeScheduler.getInstance();
+        timeScheduler.setTimeline(this);
+        popupList = new ArrayList<>();
     }
 
     @FXML
@@ -73,44 +63,35 @@ public class MainWindowController {
         gateStatus.setCellValueFactory(new PropertyValueFactory<>("circle"));
         gateStatus.setSortable(false);
 
-        gateTable.setItems(gateList);
+        gateTable.setItems(airport.getGateList());
         gateTable.setSelectionModel(null);
     }
 
+    /**
+     * The stage is passed to the controller when the application is started in the Main class.
+     */
     public void setStage(Stage myStage) {
         this.myStage = myStage;
-        this.myStage.setOnCloseRequest(e -> {
-            e.consume();
+        this.myStage.setOnCloseRequest(event -> {
+            event.consume();
             exitApplication();
         });
     }
 
-    public ObservableList<Flight> getFlightList() { return flightList; }
-    public ObservableList<Gate> getGateList() { return gateList; }
-    public int getCurrentTime() { return currentTime; }
-    public void setCurrentTime(int currentTime) { this.currentTime = currentTime; }
-    public int getIncome() { return income; }
-    public void setIncome(int income) { this.income = income; }
-    public int getMinuteDuration() { return minuteDuration; }
-    public Timer getTimer() { return timer; }
-    public List<PopupController> getPopupList() { return popupList; }
-
-
     /**
-     * Runs when the Start menu button is pressed. Begins the execution and
-     * starts the timers.
+     * Runs when the Start menu button is pressed. Begins the execution and starts the timers.
      */
     @FXML
     private void startApplication() {
-        timer = new Timer();
+        timeScheduler.setTimer(new Timer());
         detailsMenu.setDisable(false);
         flightForm.setDisable(false);
 
         List<Flight> ignoredFlights = new ArrayList<>();
-        for (Flight f : flightList) {
+        for (Flight f : airport.getFlightList()) {
             // During the initialization phase we either put the flight directly
             // in parked status or we ignore and remove it from the list
-            if(Helper.service(gateList, f, "Parked", "Ignored").equals("Unavailable")){
+            if(Helper.service(airport.getGateList(), f, "Parked", "Ignored").equals("Unavailable")){
                 bottomText.setText("Flight with id " + f.getId() + " and city "
                         + f.getCity() + " could not be servied");
                 ignoredFlights.add(f);
@@ -119,9 +100,9 @@ public class MainWindowController {
             }
         }
         Platform.runLater(() -> updateUI("Initialization complete"));
-        flightList.removeAll(ignoredFlights);
+        airport.getFlightList().removeAll(ignoredFlights);
         menuStart.setDisable(true);
-        timeline.play();
+        timeScheduler.getTimeline().play();
     }
 
     /**
@@ -219,11 +200,11 @@ public class MainWindowController {
             requestedServices.add("(un)loading");
         Flight f = new Flight(id.getText(), city.getText(), flightType.getValue().toString().toLowerCase(),
                 aircraftType.getValue().toString().toLowerCase(), flightMinutesToTakeOff,
-                requestedServices, currentTime);
-        flightList.add(f);
+                requestedServices, timeScheduler.getCurrentTime());
+        airport.getFlightList().add(f);
 
         String msg;
-        String returnStatus = Helper.service(gateList, f, "Landing", "Holding");
+        String returnStatus = Helper.service(airport.getGateList(), f, "Landing", "Holding");
         if (returnStatus.equals("Unavailable")) {
             msg = "The flight was put on hold until a suitable gate is freed.";
         } else {
@@ -269,16 +250,16 @@ public class MainWindowController {
      */
     public void updateUI(String msg) {
         long incomingFlights, available, nextTen;
-        incomingFlights = flightList.stream()
+        incomingFlights = airport.getFlightList().stream()
                 .filter(f -> (f.getStatus().equals("Landing") || f.getStatus().equals("Holding"))).count();
-        available = gateList.stream().filter(g -> g.getEmpty() == true).count();
-        nextTen = flightList.stream().filter(f -> (f.getLeavesOn() > 0  && f.getLeavesOn() - currentTime <= 10)).count();
+        available = airport.getGateList().stream().filter(g -> g.getEmpty() == true).count();
+        nextTen = airport.getFlightList().stream().filter(f -> (f.getLeavesOn() > 0  && f.getLeavesOn() - timeScheduler.getCurrentTime() <= 10)).count();
 
         flightsArriving.setText(Long.toString(incomingFlights));
         availableParking.setText(Long.toString(available));
         nextTenMinutes.setText(Long.toString(nextTen));
-        totalIncome.setText(Integer.toString(income));
-        totalTime.setText(String.format("%02d:%02d", currentTime / 60, currentTime % 60));
+        totalIncome.setText(Integer.toString(airport.getIncome()));
+        totalTime.setText(String.format("%02d:%02d", timeScheduler.getCurrentTime() / 60, timeScheduler.getCurrentTime() % 60));
 
         if (msg != null)
             bottomText.setText(msg);
@@ -308,10 +289,10 @@ public class MainWindowController {
     }
 
     private void cleanup() {
-        currentTime = 0;
-        income = 0;
-        flightList.clear();
-        gateList.clear();
+        timeScheduler.setCurrentTime(0);
+        airport.setIncome(0);
+        airport.getFlightList().clear();
+        airport.getGateList().clear();
         flightsArriving.setText("0");
         availableParking.setText("0");
         nextTenMinutes.setText("0");
@@ -320,9 +301,9 @@ public class MainWindowController {
     }
 
     public void stopTimers() {
-        timer.cancel();
-        timer.purge();
-        timeline.stop();
+        timeScheduler.getTimer().cancel();
+        timeScheduler.getTimer().purge();
+        timeScheduler.getTimeline().stop();
     }
 
     private void disable() {

@@ -30,51 +30,39 @@ public class Flight {
     public String getId() {
         return id;
     }
-
     public String getCity() {
         return city;
     }
-
     public String getFlightType() {
         return flightType;
     }
-
     public String getAircraftType() {
         return aircraftType;
     }
-
     public int getMinutesToTakeOff() {
         return minutesToTakeOff;
     }
-
     public List<String> getRequestedServices() {
         return requestedServices;
     }
-
     public int getRequestTimeStamp() {
         return requestTimeStamp;
     }
-
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status;
     }
-
     public int getLeavesOn() {
         return leavesOn;
     }
-
     public void setLeavesOn(int leavesOn) {
         this.leavesOn = leavesOn;
     }
-
     public Gate getGate() {
         return gate;
     }
-
     public void setGate(Gate gate) {
         this.gate = gate;
     }

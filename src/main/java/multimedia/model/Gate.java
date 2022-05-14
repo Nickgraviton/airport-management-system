@@ -160,39 +160,30 @@ public class Gate {
     public String getId() {
         return id;
     }
-
     public int getCost() {
         return cost;
     }
-
     public String getCategory() {
         return category;
     }
-
     public int getMaxStay() {
         return maxStay;
     }
-
     public Map<String, Boolean> getFlightsAllowed() {
         return flightsAllowed;
     }
-
     public Map<String, Boolean> getAircraftsAllowed() {
         return aircraftsAllowed;
     }
-
     public Map<String, Boolean> getProvidedServices() {
         return providedServices;
     }
-
     public Circle getCircle() {
         return circle;
     }
-
     public Flight getAssignedFlight() {
         return assignedFlight;
     }
-
     public void setAssignedFlight(Flight assignedFlight) {
         this.assignedFlight = assignedFlight;
     }

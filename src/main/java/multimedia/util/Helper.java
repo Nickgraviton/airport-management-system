@@ -1,6 +1,7 @@
 package multimedia.util;
 
 import java.io.*;
+import java.sql.Time;
 import java.util.*;
 import java.net.URL;
 import multimedia.model.*;
@@ -13,6 +14,14 @@ import javafx.application.Platform;
  * events.
  */
 public class Helper {
+    private static Airport airport;
+    private static TimeScheduler timeScheduler;
+
+    public Helper() {
+        airport = Airport.getInstance();
+        timeScheduler = TimeScheduler.getInstance();
+    }
+
     /**
      * Map between input file gate numbers and a meaningful gate name
      */
@@ -55,7 +64,7 @@ public class Helper {
                 return;
             }
             for (int i = 1; i <= Integer.parseInt(tokens[1]); i++) {
-                controller.getGateList().add(new Gate(tokens[3]+String.valueOf(i),
+                airport.getGateList().add(new Gate(tokens[3]+String.valueOf(i),
                         Integer.parseInt(tokens[2]), MAP_CATEGORIES.get(tokens[0])));
             }
         }
@@ -97,7 +106,7 @@ public class Helper {
                     controller.handleError("Invalid aircraft type number");
                     return;
             }
-            controller.getFlightList().add(new Flight(tokens[0], tokens[1], flightType, aircraftType,
+            airport.getFlightList().add(new Flight(tokens[0], tokens[1], flightType, aircraftType,
                     Integer.parseInt(tokens[4]), requestedServices, 0));
         }
     }
@@ -159,7 +168,7 @@ public class Helper {
                 handleParked(controller, f);
             }
         };
-        controller.getTimer().schedule(task, landingTime * controller.getMinuteDuration() * 1000l);
+        timeScheduler.getTimer().schedule(task, landingTime * timeScheduler.getMinuteDuration() * 1000l);
     }
 
    /**
@@ -178,7 +187,7 @@ public class Helper {
         f.setStatus("Parked");
 
         int rand = Helper.generateRandom(5, 2*f.getMinutesToTakeOff());
-        f.setLeavesOn(controller.getCurrentTime()+rand);
+        f.setLeavesOn(timeScheduler.getCurrentTime()+rand);
 
         TimerTask task = new TimerTask() {
             @Override
@@ -186,7 +195,7 @@ public class Helper {
                 handleTakeOff(controller, f);
             }
         };
-        controller.getTimer().schedule(task, rand * controller.getMinuteDuration() * 1000l);
+        timeScheduler.getTimer().schedule(task, rand * timeScheduler.getMinuteDuration() * 1000l);
         Platform.runLater(() -> controller.updateUI("Flight with id " + f.getId()
                 + " completed its landing and is now parked in Gate " + f.getGate().getId() + "."));
     }
@@ -229,14 +238,14 @@ public class Helper {
             // 10% reduction
             finalCost *= 0.9;
         }
-        controller.setIncome(controller.getIncome() + finalCost);
+        airport.setIncome(airport.getIncome() + finalCost);
         f.getGate().setEmpty(true);
         f.getGate().setAssignedFlight(null);
-        controller.getFlightList().remove(f);
+        airport.getFlightList().remove(f);
 
-        for (Flight flight : controller.getFlightList()) {
+        for (Flight flight : airport.getFlightList()) {
             if (flight.getStatus().equals("Holding")) {
-                if (!service(controller.getGateList(), flight, "Landing", "Holding").equals("Unavailable")){
+                if (!service(airport.getGateList(), flight, "Landing", "Holding").equals("Unavailable")){
                     handleLanding(controller, flight);
                 }
             }
