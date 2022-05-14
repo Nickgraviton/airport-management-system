@@ -34,8 +34,6 @@ public class Main extends Application {
 
     /**
      * Launches the application.
-     *
-     * @param args
      */
     public static void main(String[] args) {
         Application.launch(args);

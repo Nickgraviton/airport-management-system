@@ -62,7 +62,7 @@ public class Initializer {
                 throw new InvalidInputException("Invalid gate type");
             }
             for (int i = 1; i <= Integer.parseInt(tokens[1]); i++) {
-                airport.getGateList().add(new Gate(tokens[3] + String.valueOf(i),
+                airport.getGateList().add(new Gate(tokens[3] + i,
                         Integer.parseInt(tokens[2]), MAP_CATEGORIES.get(tokens[0])));
             }
         }

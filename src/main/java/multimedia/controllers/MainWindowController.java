@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -14,7 +13,6 @@ import multimedia.exceptions.InvalidInputException;
 import multimedia.model.Airport;
 import multimedia.model.Flight;
 import multimedia.model.Gate;
-import multimedia.util.Helper;
 import multimedia.util.Initializer;
 import multimedia.util.TimeScheduler;
 
@@ -29,9 +27,10 @@ import java.util.Timer;
  * Class responsible for the main window of the program
  */
 public class MainWindowController {
-    private Airport airport;
-    private TimeScheduler timeScheduler;
-    private Initializer initializer;
+    private final Airport airport;
+    private final Initializer initializer;
+
+    private final TimeScheduler timeScheduler;
     private Stage myStage;
     private final List<PopupController> popupList;
 
@@ -65,8 +64,8 @@ public class MainWindowController {
 
     public MainWindowController() {
         airport = Airport.getInstance();
-        timeScheduler = TimeScheduler.getInstance();
         initializer = Initializer.getInstance();
+        timeScheduler = TimeScheduler.getInstance();
         timeScheduler.setTimeline(this);
         popupList = new ArrayList<>();
     }
@@ -110,7 +109,7 @@ public class MainWindowController {
             // in parked status or we ignore and remove it from the list
             if (airport.service(f, "Parked", "Ignored").equals("Unavailable")) {
                 bottomText.setText("Flight with id " + f.getId() + " and city "
-                        + f.getCity() + " could not be servied");
+                        + f.getCity() + " could not be serviced");
                 ignoredFlights.add(f);
             } else {
                 airport.handleParked(this, f);
@@ -132,7 +131,6 @@ public class MainWindowController {
         chooseScenario.setTitle("Airport Management System");
         chooseScenario.setHeaderText("Insert the scenario ID to be loaded");
         chooseScenario.setContentText("Scenario ID");
-        Stage scenarioStage = (Stage) chooseScenario.getDialogPane().getScene().getWindow();
         Optional<String> retValue = chooseScenario.showAndWait();
 
         // If the OK button in the TextInputDialog window was pressed the
@@ -171,7 +169,6 @@ public class MainWindowController {
         Alert confirmation = new Alert(AlertType.CONFIRMATION,
                 "Are you sure you want to exit?");
         confirmation.setTitle("Airport Management System");
-        Stage confirmationStage = (Stage) confirmation.getDialogPane().getScene().getWindow();
         confirmation.showAndWait()
                 .filter(response -> response == ButtonType.OK)
                 .ifPresent(response -> {
@@ -201,8 +198,8 @@ public class MainWindowController {
             showError("Minutes to take off field needs to contain a number");
             return;
         }
-        if (loading.isSelected() && aircraftType.getValue().toString().toLowerCase().equals("single-engine")) {
-            showError("(Un)Loading cannot be selected for single-engine aircrafts");
+        if (loading.isSelected() && aircraftType.getValue().toString().equalsIgnoreCase("single-engine")) {
+            showError("(Un)Loading cannot be selected for single-engine aircraft");
             return;
         }
 
@@ -238,39 +235,39 @@ public class MainWindowController {
 
     @FXML
     private void gatesPopup() {
-        popupList.add(new PopupController(this, "Gates"));
+        popupList.add(new GatesPopupController(this));
     }
 
     @FXML
     private void flightsPopup() {
-        popupList.add(new PopupController(this, "Flights"));
+        popupList.add(new FlightsPopupController(this));
     }
 
     @FXML
     private void delayedPopup() {
-        popupList.add(new PopupController(this, "Delayed"));
+        popupList.add(new DelayedPopupController(this));
     }
 
     @FXML
     private void holdingPopup() {
-        popupList.add(new PopupController(this, "Holding"));
+        popupList.add(new HoldingPopupController(this));
     }
 
     @FXML
     private void nextDeparturesPopup() {
-        popupList.add(new PopupController(this, "Next Departures"));
+        popupList.add(new NextDeparturesPopupController(this));
     }
 
     /**
      * Updates all UI elements and popups
      *
-     * @param msg optional message that appears on the bottom of the screen
+     * @param msg optional message that appears at the bottom of the screen
      */
     public void updateUI(String msg) {
         long incomingFlights, available, nextTen;
         incomingFlights = airport.getFlightList().stream()
                 .filter(f -> (f.getStatus().equals("Landing") || f.getStatus().equals("Holding"))).count();
-        available = airport.getGateList().stream().filter(g -> g.getEmpty() == true).count();
+        available = airport.getGateList().stream().filter(Gate::getEmpty).count();
         nextTen = airport.getFlightList().stream().filter(f -> (f.getLeavesOn() > 0 && f.getLeavesOn() - timeScheduler.getCurrentTime() <= 10)).count();
 
         flightsArriving.setText(Long.toString(incomingFlights));
@@ -290,7 +287,6 @@ public class MainWindowController {
     private void showError(String msg) {
         Alert error = new Alert(AlertType.ERROR, msg);
         error.setTitle("Airport Management System");
-        Stage errorStage = (Stage) error.getDialogPane().getScene().getWindow();
         error.showAndWait();
     }
 
@@ -298,7 +294,6 @@ public class MainWindowController {
         Alert info = new Alert(AlertType.INFORMATION, msg);
         info.setTitle("Airport Management System");
         info.setHeaderText("Success");
-        Stage errorStage = (Stage) info.getDialogPane().getScene().getWindow();
         info.showAndWait();
     }
 

@@ -23,8 +23,8 @@ public class Gate {
         this.id = id;
         this.cost = cost;
         this.category = category;
-        this.empty = true;
-        this.assignedFlight = null;
+        empty = true;
+        assignedFlight = null;
         flightsAllowed = new HashMap<>();
         aircraftAllowed = new HashMap<>();
         providedServices = new HashMap<>();
