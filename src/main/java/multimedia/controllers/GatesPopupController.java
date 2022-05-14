@@ -7,14 +7,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import multimedia.model.BaseGate;
 
-/**
- * Class responsible for the gates popup.
- */
 public class GatesPopupController extends PopupController {
     TableView<BaseGate> gateTable;
-    /**
-     * @param owner the owner window controller instance
-     */
+
     public GatesPopupController(MainWindowController owner) {
         gateTable = new TableView<>();
         gateTable.setSelectionModel(null);
@@ -50,6 +45,7 @@ public class GatesPopupController extends PopupController {
         popup.setOnCloseRequest(e -> owner.getPopupList().remove(this));
     }
 
+    @Override
     public void refresh() {
         gateTable.setItems(airport.getGateList());
         gateTable.refresh();

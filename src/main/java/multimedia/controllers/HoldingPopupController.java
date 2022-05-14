@@ -12,15 +12,9 @@ import multimedia.util.Helper;
 
 import java.util.stream.Collectors;
 
-/**
- * Class responsible for the holding flights popup.
- */
 public class HoldingPopupController extends PopupController {
     TableView<Flight> holdingTable;
 
-    /**
-     * @param owner the owner window controller instance
-     */
     public HoldingPopupController(MainWindowController owner) {
         holdingTable = new TableView<>();
         holdingTable.setSelectionModel(null);
@@ -57,6 +51,7 @@ public class HoldingPopupController extends PopupController {
         popup.setOnCloseRequest(e -> owner.getPopupList().remove(this));
     }
 
+    @Override
     public void refresh() {
         ObservableList<Flight> holding = FXCollections.observableArrayList(
                 airport.getFlightList().stream()

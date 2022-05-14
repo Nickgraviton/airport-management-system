@@ -8,8 +8,9 @@ import multimedia.controllers.MainWindowController;
 
 import java.util.Timer;
 
-/*
- * Singleton class
+/**
+ * Scheduler class that handles timer tasks and updates the UI at regular intervals.
+ * Singleton class since we need only once instance.
  */
 public class TimeScheduler {
     // 5 real world seconds correspond to 1 simulation minute

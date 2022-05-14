@@ -10,14 +10,31 @@ import multimedia.util.TimeScheduler;
 import java.util.List;
 import java.util.TimerTask;
 
-/*
- * Singleton class
+/**
+ * Airport class that holds flight and gate info along with the current income.
+ * Responsible for handling flight requests and events.
+ * Singleton class since we need only once instance.
  */
 public class Airport {
+    /**
+     * Total income collected
+     */
     private int income;
+    /**
+     * List of all flights regardless of their status
+     */
     private final ObservableList<Flight> flightList;
+    /**
+     * List of all gates
+     */
     private final ObservableList<BaseGate> gateList;
+    /**
+     * Instance of time scheduler to schedule flight status changes
+     */
     private final TimeScheduler timeScheduler;
+    /**
+     * Singleton instance of class
+     */
     private static final Airport airport = new Airport();
 
     private Airport() {

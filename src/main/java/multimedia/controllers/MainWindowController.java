@@ -24,7 +24,7 @@ import java.util.Optional;
 import java.util.Timer;
 
 /**
- * Class responsible for the main window of the program
+ * Class responsible for the main window of the program.
  */
 public class MainWindowController {
     private final Airport airport;
@@ -70,6 +70,10 @@ public class MainWindowController {
         popupList = new ArrayList<>();
     }
 
+    /**
+     * Initializes the main window table and populates it with the initial gate data.
+     * Runs after the constructor and after the fxml annotated fields are populated.
+     */
     @FXML
     private void initialize() {
         gateType.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCategory()));
@@ -85,6 +89,8 @@ public class MainWindowController {
 
     /**
      * The stage is passed to the controller when the application is started in the Main class.
+     *
+     * @param myStage the stage of the controller
      */
     public void setStage(Stage myStage) {
         this.myStage = myStage;
@@ -122,8 +128,10 @@ public class MainWindowController {
     }
 
     /**
-     * Runs when the Load menu button is pressed. Initializes the application
-     * and reads the files inside the multimedia folder.
+     * Initializes the application and reads the files inside the multimedia folder.
+     * Runs when the Load menu button is pressed.
+     *
+     * @throws IOException is thrown when there is an error reading the input scenarios
      */
     @FXML
     private void loadConfiguration() throws IOException {
@@ -161,8 +169,8 @@ public class MainWindowController {
     }
 
     /**
-     * Runs when the Exit menu button is pressed. Stops the timers and c
-     * loses the program gracefully.
+     * Runs when the Exit menu button is pressed. Stops the timers and
+     * closes the program gracefully.
      */
     @FXML
     private void exitApplication() {
@@ -218,6 +226,7 @@ public class MainWindowController {
         airport.getFlightList().add(f);
 
         String msg;
+        // If the flight can be serviced it enters Landing status. Otherwise, it's put on hold
         String returnStatus = airport.service(f, "Landing", "Holding");
         if (returnStatus.equals("Unavailable")) {
             msg = "The flight was put on hold until a suitable gate is freed.";

@@ -8,15 +8,10 @@ import javafx.scene.layout.AnchorPane;
 import multimedia.model.Flight;
 import multimedia.util.Helper;
 
-/**
- * Class responsible for flights popup.
- */
+
 public class FlightsPopupController extends PopupController {
     TableView<Flight> flightTable;
 
-    /**
-     * @param owner the owner window controller instance
-     */
     public FlightsPopupController(MainWindowController owner) {
         flightTable = new TableView<>();
         flightTable.setSelectionModel(null);
@@ -55,6 +50,7 @@ public class FlightsPopupController extends PopupController {
         popup.setOnCloseRequest(e -> owner.getPopupList().remove(this));
     }
 
+    @Override
     public void refresh() {
         flightTable.setItems(airport.getFlightList());
         flightTable.refresh();

@@ -6,7 +6,8 @@ import multimedia.model.Airport;
 import multimedia.util.TimeScheduler;
 
 /**
- * Base class for all the popup windows.
+ * Base controller class for all the popup windows.
+ * Creates a new stage and puts an empty anchor-pane inside that the individual popups use.
  */
 public class PopupController {
     protected final Airport airport;
@@ -24,5 +25,8 @@ public class PopupController {
         anchor = new AnchorPane();
     }
 
+    /**
+     * Function that is meant to be overridden by subclasses that refresh the popup data.
+     */
     public void refresh() {}
 }

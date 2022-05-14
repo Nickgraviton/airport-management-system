@@ -3,7 +3,7 @@ package multimedia.util;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Static helper class that provides capitalization of Strings and a random number generator
+ * Static helper class that provides capitalization of Strings and a random number generator.
  */
 public class Helper {
     /**

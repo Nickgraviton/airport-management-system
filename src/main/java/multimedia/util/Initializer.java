@@ -13,6 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Initializer class that handles reading scenarios and populating our airport with the initial data.
+ * Singleton class since we need only once instance.
+ */
 public class Initializer {
     private final Airport airport;
     private final Map<String, String> MAP_CATEGORIES;
@@ -54,6 +58,7 @@ public class Initializer {
 
         String line;
         while ((line = airportReader.readLine()) != null) {
+            // Throw away whitespace and split input into tokens
             String[] tokens = line.replaceAll("\\s*,\\s*", ",").split(",");
             String gateType = tokens[0];
             if (Integer.parseInt(gateType) < 1 || Integer.parseInt(gateType) > 7) {
@@ -93,6 +98,7 @@ public class Initializer {
         // We assume that passenger flights use the passenger service and cargo flights
         // and cargo flights use the (un)loading service
         while ((line = setupReader.readLine()) != null) {
+            // Throw away whitespace and split input into tokens
             String[] tokens = line.replaceAll("\\s*,\\s*", ",").split(",");
             String flightType, aircraftType;
             List<String> requestedServices = new ArrayList<>();

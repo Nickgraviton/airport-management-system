@@ -12,15 +12,9 @@ import multimedia.util.Helper;
 
 import java.util.stream.Collectors;
 
-/**
- * Class responsible for next departures popup.
- */
 public class NextDeparturesPopupController extends PopupController {
     TableView<Flight> nextDeparturesTable;
 
-    /**
-     * @param owner the owner window controller instance
-     */
     public NextDeparturesPopupController(MainWindowController owner) {
         nextDeparturesTable = new TableView<>();
         nextDeparturesTable.setSelectionModel(null);
@@ -56,6 +50,7 @@ public class NextDeparturesPopupController extends PopupController {
         popup.setOnCloseRequest(e -> owner.getPopupList().remove(this));
     }
 
+    @Override
     public void refresh() {
         ObservableList<Flight> nextDepartures = FXCollections.observableArrayList(
                 airport.getFlightList().stream()

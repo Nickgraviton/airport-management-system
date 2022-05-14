@@ -12,15 +12,9 @@ import multimedia.util.Helper;
 
 import java.util.stream.Collectors;
 
-/**
- * Class responsible for the delayed flights popup.
- */
 public class DelayedPopupController extends PopupController {
     TableView<Flight> delayedTable;
 
-    /**
-     * @param owner the owner window controller instance
-     */
     public DelayedPopupController(MainWindowController owner) {
         delayedTable = new TableView<>();
         delayedTable.setSelectionModel(null);
@@ -60,6 +54,7 @@ public class DelayedPopupController extends PopupController {
         popup.setOnCloseRequest(e -> owner.getPopupList().remove(this));
     }
 
+    @Override
     public void refresh() {
         ObservableList<Flight> delayed = FXCollections.observableArrayList(
                 airport.getFlightList().stream()

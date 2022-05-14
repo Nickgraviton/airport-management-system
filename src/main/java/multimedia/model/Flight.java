@@ -2,16 +2,51 @@ package multimedia.model;
 
 import java.util.*;
 
+/**
+ * Class that represents a flight object containing flight info.
+ */
 public class Flight {
+    /**
+     * Flight id
+     */
     private final String id;
+    /**
+     * City that the aircraft flies to
+     */
     private final String city;
+    /**
+     * Type of flight. One of "passenger", "cargo" or "private"
+     */
     private final String flightType;
+    /**
+     * Type of aircraft. One of "single-engine", "turboprop" or "jet"
+     */
     private final String aircraftType;
+    /**
+     * Remaining minutes before the flight takes off
+     */
     private final int minutesToTakeOff;
+    /**
+     * List of additional services requested by the flight. Available service are "refuel", "cleaning",
+     * "passenger carrying" and "(un)loading"
+     */
     private final List<String> requestedServices;
+    /**
+     * Timestamp when the flight was submitted
+     */
     private final int requestTimeStamp;
+    /**
+     * Current flight status. One "Parked", "Holding" or "Landing"
+     */
     private String status;
+    /**
+     * Assigned gate to the flight
+     */
     private BaseGate gate;
+    /**
+     * Actual timestamp when the flight will leave. This may differ from the requestTimeStamp + minutesToTakeOff
+     * because the actual takeoff time is randomly selected within a range of requestTimeStamp + [5, 2 * minutesToTakeOff]
+     */
     private int leavesOn;
 
 

@@ -6,16 +6,49 @@ import javafx.scene.shape.Circle;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Base class for all gate types.
+ */
 public class BaseGate {
+    /**
+     * Gate id
+     */
     protected final String id;
+    /**
+     * Base cost of staying at gate
+     */
     protected final int cost;
+    /**
+     * Boolean value that is true when the gate is empty
+     */
     protected boolean empty;
+    /**
+     * String containing the gate type
+     */
     protected final String category;
+    /**
+     * Max number of minutes an aircraft can stay at the gate
+     */
     protected final int maxStay;
+    /**
+     * Mapping of flights and whether they are allowed at the gate
+     */
     protected final Map<String, Boolean> flightsAllowed;
+    /**
+     * Mapping of aircraft and whether they are allowed at the gate
+     */
     protected final Map<String, Boolean> aircraftAllowed;
+    /**
+     * Mapping of service and whether they are provided at the gate
+     */
     protected final Map<String, Boolean> providedServices;
+    /**
+     * GUI circle that is green when the gate is empty and red when it is not
+     */
     protected final Circle circle;
+    /**
+     * Flight assigned to the gate
+     */
     protected Flight assignedFlight;
 
     public BaseGate(String id, int cost, String category, int maxStay) {
