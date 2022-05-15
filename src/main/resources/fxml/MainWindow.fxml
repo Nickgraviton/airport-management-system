@@ -21,9 +21,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #dcdcdc;" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="multimedia.controllers.MainWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #dcdcdc;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="multimedia.controllers.MainWindowController">
    <children>
-      <MenuBar layoutY="2.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="Application">
             <items>
@@ -43,7 +43,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <GridPane alignment="CENTER" hgap="15.0" layoutY="29.0" prefHeight="78.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <GridPane alignment="CENTER" hgap="15.0" layoutY="27.0" prefHeight="80.0" prefWidth="800.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -56,7 +56,7 @@
             <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="41.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #45aaf2;">
+            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #93b9f3;">
                <children>
                   <Label fx:id="flightsArriving" prefHeight="50.0" prefWidth="148.0" text="0" textFill="WHITE">
                      <font>
@@ -68,7 +68,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="148.0" style="-fx-background-color: #45aaf2;" GridPane.columnIndex="1">
+            <Pane layoutX="10.0" layoutY="10.0" prefHeight="60.0" prefWidth="148.0" style="-fx-background-color: #93b9f3;" GridPane.columnIndex="1">
                <children>
                   <Label fx:id="availableParking" prefHeight="50.0" prefWidth="148.0" text="0" textFill="WHITE">
                      <font>
@@ -80,7 +80,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #45aaf2;" GridPane.columnIndex="2">
+            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #93b9f3;" GridPane.columnIndex="2">
                <children>
                   <Label fx:id="nextTenMinutes" prefHeight="50.0" prefWidth="148.0" text="0" textFill="WHITE">
                      <font>
@@ -92,7 +92,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #45aaf2;" GridPane.columnIndex="3">
+            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #93b9f3;" GridPane.columnIndex="3">
                <children>
                   <Label fx:id="totalIncome" layoutY="1.0" prefHeight="50.0" prefWidth="148.0" text="0" textFill="WHITE">
                      <font>
@@ -104,7 +104,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="148.0" style="-fx-background-color: #45aaf2;" GridPane.columnIndex="4">
+            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="148.0" style="-fx-background-color: #93b9f3;" GridPane.columnIndex="4">
                <children>
                   <Label fx:id="totalTime" prefHeight="50.0" prefWidth="148.0" text="00:00" textFill="WHITE">
                      <font>
@@ -116,7 +116,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #45aaf2;" GridPane.rowIndex="1">
+            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #93b9f3;" GridPane.rowIndex="1">
                <children>
                   <Label alignment="TOP_LEFT" prefHeight="40.0" prefWidth="148.0" text="Flights Arriving" textFill="WHITE">
                      <padding>
@@ -125,7 +125,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #45aaf2;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #93b9f3;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <Label alignment="TOP_LEFT" prefHeight="40.0" prefWidth="148.0" text="Available Parking&#10;Spots" textFill="WHITE">
                      <padding>
@@ -134,7 +134,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #45aaf2;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #93b9f3;" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <children>
                   <Label alignment="TOP_LEFT" prefHeight="40.0" prefWidth="148.0" text="Departing in the next 10 minutes" textFill="WHITE" wrapText="true">
                      <padding>
@@ -143,7 +143,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #45aaf2;" GridPane.columnIndex="3" GridPane.rowIndex="1">
+            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #93b9f3;" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <children>
                   <Label alignment="TOP_LEFT" prefHeight="40.0" prefWidth="148.0" text="Total Income" textFill="WHITE">
                      <padding>
@@ -152,7 +152,7 @@
                   </Label>
                </children>
             </Pane>
-            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #45aaf2;" GridPane.columnIndex="4" GridPane.rowIndex="1">
+            <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #93b9f3;" GridPane.columnIndex="4" GridPane.rowIndex="1">
                <children>
                   <Label alignment="TOP_LEFT" prefHeight="40.0" prefWidth="148.0" text="Total Time" textFill="WHITE">
                      <padding>
@@ -163,7 +163,7 @@
             </Pane>
          </children>
       </GridPane>
-      <AnchorPane fx:id="flightForm" disable="true" layoutX="488.0" layoutY="105.0" prefHeight="346.0" prefWidth="311.0" style="-fx-background-color: #a5b1c2;" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="105.0">
+      <AnchorPane fx:id="flightForm" disable="true" layoutX="488.0" layoutY="105.0" prefHeight="346.0" prefWidth="311.0" style="-fx-background-color: #dfe6ea;" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="105.0">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" layoutX="118.0" layoutY="4.0" text="Insert Flight Details" AnchorPane.leftAnchor="118.0">
                <font>
@@ -208,7 +208,7 @@
             </TableView>
          </children>
       </AnchorPane>
-      <HBox layoutY="400.0" prefHeight="50.0" style="-fx-background-color: #4b6584;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <HBox layoutY="400.0" prefHeight="50.0" style="-fx-background-color: #9fa8b7;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <AnchorPane prefHeight="50.0">
                <children>

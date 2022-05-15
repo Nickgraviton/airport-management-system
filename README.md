@@ -1,5 +1,5 @@
 # Multimedia Technologies 2019-2020 Assignment
-A simple airport management system using Java11 and JavaFX11. We process incoming flight requests assigning them to the appropriate gates and removing them when the planes take off. We also hold the total income based on how long the plane stayed at the airport, the gate's type and the services the flight used.
+A simple airport management system using Java18 and JavaFX18 (also tested in Java11 and JavaFX11). We process incoming flight requests assigning them to the appropriate gates and removing them when the planes take off. We also hold the total income based on how long the plane stayed at the airport, the gate's type and the services the flight used.
 ## Project structure
 ```
 ├── build.gradle
@@ -49,7 +49,7 @@ A simple airport management system using Java11 and JavaFX11. We process incomin
 
 ```
 ##### Repository root directory
-* `build.gradle:` Gradle build file that uses JavaFX11 and a gradle plugin to download the necessary JavaFX11 libraries.
+* `build.gradle:` Gradle build file that uses JavaFX18 and a gradle plugin to download the necessary JavaFX18 libraries.
 * `gradle:` Directory that has the gradle wrapper files
 * `gradlew:` Unix script/Gradle wrapper
 * `gradlew.bat:` Windows script/Gradle wrapper
